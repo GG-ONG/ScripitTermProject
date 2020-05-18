@@ -50,7 +50,7 @@ def sendmail():
     s.login("tjddyddl93@gmail.com","wmayettrcaauvtfq")
 
 
-    msg['Subject'] = '선택한 수도 날씨 정보'
+    msg['Subject'] = '선택한 도시 날씨 정보'
     s.sendmail("tjddyddl93@gmail.com", "tjddyddl93@gmail.com", msg.as_string())
 
     s.quit()
@@ -78,7 +78,7 @@ def weather():
 
 
 window=Tk()
-window.title("수도 날씨 정보")
+window.title("도시 날씨 정보")
 window.geometry("400x350")
 
 city_name_list=["Seoul","Tokyo","Beijing","Washington"]
