@@ -1,9 +1,45 @@
+import json
 import requests
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
 from email.mime.text import MIMEText
 from tkinter import *
+
+
+def telegram():
+    city = city_listbox.get()
+    url = "https://openweathermap.org/data/2.5/weather?q={}&appid=439d4b804bc8187953eb36d2a8c26a02".format(city)
+    res = requests.get(url)
+    output = res.json()
+
+    weather_status = output['weather'][0]['description']
+    temperature = output['main']['temp']
+    humidity = output['main']['humidity']
+    wind_speed = output['wind']['speed']
+
+    cityname = "도시이름 :" + city
+    wslc = "날씨 상태 : " + weather_status
+    tlc = "온도 : " + str(temperature)
+    hlc = "습도 : " + str(humidity)
+    wlc = "바람 세기 : " + str(wind_speed)
+
+    token = "1206680949:AAFv4zWsk-cOIemuLOoBGS7S8bGi_4wTLyE"
+    url = 'https://api.telegram.org/bot{}/getUpdates'.format(token)
+    response = json.loads(requests.get(url).text)
+    url = 'https://api.telegram.org/bot{}/sendMessage'.format(token)
+    chat_id = response["result"][-1]["message"]["from"]["id"]
+    text = response["result"][-1]["message"]["text"]
+    msg = text
+
+    if text =="선택한 도시 날씨":
+        msg = cityname +"\n" + wslc + "\n" + tlc + "\n" + hlc +"\n"+ wlc
+
+    requests.get(url, params= {"chat_id" : chat_id, "text" : msg})
+
+
+
+
 
 def saveinfo():
     city = city_listbox.get()
@@ -16,7 +52,7 @@ def saveinfo():
     humidity = output['main']['humidity']
     wind_speed = output['wind']['speed']
 
-    cityname = "도시이름 :" + city
+    cityname = "도시이름 : " + city
     wslc="날씨 상태 : " + weather_status
     tlc="온도 : " + str(temperature)
     hlc="습도 : " + str(humidity)
@@ -30,8 +66,10 @@ def saveinfo():
     f.close()
 
 
-def sendmail():
 
+
+
+def sendmail():
 
     msg = MIMEMultipart()
 
@@ -81,7 +119,7 @@ window=Tk()
 window.title("도시 날씨 정보")
 window.geometry("400x350")
 
-city_name_list=["Seoul","Tokyo","Beijing","Washington"]
+city_name_list=["Seoul","Tokyo","Beijing","Washington","London","Berlin","Rome","Madrid","Paris"]
 
 city_listbox=StringVar(window)
 city_listbox.set("도시를 선택하세요")
@@ -94,6 +132,8 @@ b2=Button(window,text="메일보내기", width=15, command=sendmail)
 b2.grid(row=20, column=2, padx=150)
 b2=Button(window,text="저장하기", width=15, command=saveinfo)
 b2.grid(row=25, column=2, padx=150)
+b3=Button(window,text="챗봇", width=15, command=telegram)
+b3.grid(row=30, column=2, padx=150)
 
 weather_status_label=Label(window,font=("times",15,"bold"))
 weather_status_label.grid(row=10,column=2)
@@ -108,6 +148,8 @@ wind_speed_label=Label(window,font=("times",15,"bold"))
 wind_speed_label.grid(row=16,column=2)
 
 window.mainloop()
+
+
 
 
 
