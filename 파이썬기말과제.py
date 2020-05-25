@@ -5,6 +5,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
 from email.mime.text import MIMEText
 from tkinter import *
+from matplotlib import pyplot as plt
 
 
 def telegram():
@@ -64,6 +65,30 @@ def saveinfo():
         msg = text
         f.write(msg+"\n")
     f.close()
+
+
+def chart():
+    city = city_listbox.get()
+    url = "https://openweathermap.org/data/2.5/weather?q={}&appid=439d4b804bc8187953eb36d2a8c26a02".format(city)
+    res = requests.get(url)
+    output = res.json()
+
+    weather_status = output['weather'][0]['description']
+    temperature = output['main']['temp']
+    humidity = output['main']['humidity']
+    wind_speed = output['wind']['speed']
+
+
+    wslc = weather_status
+    tlc = temperature
+    hlc = humidity
+    wlc = wind_speed
+
+    y = [tlc,hlc,wlc]
+
+    plt.plot(["Temperature", "Humidity" ,"Wind_Speed"],y)
+    plt.title(city + " Weather_status : " + wslc)
+    plt.show()
 
 
 
@@ -134,6 +159,8 @@ b2=Button(window,text="저장하기", width=15, command=saveinfo)
 b2.grid(row=25, column=2, padx=150)
 b3=Button(window,text="챗봇", width=15, command=telegram)
 b3.grid(row=30, column=2, padx=150)
+b4=Button(window,text='차트로보기', width=15, command=chart)
+b4.grid(row=32, column=2, padx=150)
 
 weather_status_label=Label(window,font=("times",15,"bold"))
 weather_status_label.grid(row=10,column=2)
