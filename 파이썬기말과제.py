@@ -8,6 +8,7 @@ from tkinter import *
 from matplotlib import pyplot as plt
 
 
+
 def telegram():
     city = city_listbox.get()
     url = "https://openweathermap.org/data/2.5/weather?q={}&appid=439d4b804bc8187953eb36d2a8c26a02".format(city)
@@ -39,7 +40,17 @@ def telegram():
     requests.get(url, params= {"chat_id" : chat_id, "text" : msg})
 
 
+def location():
 
+
+    url = 'https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyAuV8ksn8Hz7genu2V7Iz1EsCpAe2DKSMI'
+    data = {
+        'considerIp': True,
+    }
+    result = requests.post(url,data)
+    window=Tk()
+    window.geometry("700x10")
+    window.title(result.text)
 
 
 def saveinfo():
@@ -144,7 +155,7 @@ window=Tk()
 window.title("도시 날씨 정보")
 window.geometry("400x350")
 
-city_name_list=["Seoul","Tokyo","Beijing","Washington","London","Berlin","Rome","Madrid","Paris"]
+city_name_list=["Seoul","Tokyo","Beijing","Washington","London","Berlin","Rome","Madrid","Paris","Siheung-si"]
 
 city_listbox=StringVar(window)
 city_listbox.set("도시를 선택하세요")
@@ -161,6 +172,8 @@ b3=Button(window,text="챗봇", width=15, command=telegram)
 b3.grid(row=30, column=2, padx=150)
 b4=Button(window,text='차트로보기', width=15, command=chart)
 b4.grid(row=32, column=2, padx=150)
+b5=Button(window,text="현재위치 위도 경도", width=15, command=location)
+b5.grid(row=34, column=2, padx=150)
 
 weather_status_label=Label(window,font=("times",15,"bold"))
 weather_status_label.grid(row=10,column=2)
