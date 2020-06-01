@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<head>    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://rawcdn.githack.com/python-visualization/folium/master/folium/templates/leaflet.awesome.rotate.css"/>
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_c962ae6dc50547089e5892549e41dd67 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+            </style>
+        
+</head>
+<body>    
+    
+            <div class="folium-map" id="map_c962ae6dc50547089e5892549e41dd67" ></div>
+        
+</body>
+<script>    
+    
+            var map_c962ae6dc50547089e5892549e41dd67 = L.map(
+                "map_c962ae6dc50547089e5892549e41dd67",
+                {
+                    center: [37.353051, 126.7496159],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 15,
+                    zoomControl: true,
+                    preferCanvas: false,
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_91761cb0d7d84ebca71f639c0deae0ce = L.tileLayer(
+                "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {"attribution": "Data by \u0026copy; \u003ca href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca href=\"http://www.openstreetmap.org/copyright\"\u003eODbL\u003c/a\u003e.", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            ).addTo(map_c962ae6dc50547089e5892549e41dd67);
+        
+    
+            var marker_ff5a601dfeb34ad9b26117c649c489a6 = L.marker(
+                [37.353051, 126.7496159],
+                {}
+            ).addTo(map_c962ae6dc50547089e5892549e41dd67);
+        
+    
+            var icon_3f529ca5b2be498eba849b094e9b0487 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "red", "prefix": "glyphicon"}
+            );
+            marker_ff5a601dfeb34ad9b26117c649c489a6.setIcon(icon_3f529ca5b2be498eba849b094e9b0487);
+        
+    
+        var popup_bab2ce8241dc41919b38843b70d23c49 = L.popup({"maxWidth": "100%"});
+
+        
+            var html_55e44ec6f3bb4e4b8a282bc704378381 = $(`<div id="html_55e44ec6f3bb4e4b8a282bc704378381" style="width: 100.0%; height: 100.0%;">You are Here!</div>`)[0];
+            popup_bab2ce8241dc41919b38843b70d23c49.setContent(html_55e44ec6f3bb4e4b8a282bc704378381);
+        
+
+        marker_ff5a601dfeb34ad9b26117c649c489a6.bindPopup(popup_bab2ce8241dc41919b38843b70d23c49)
+        ;
+
+        
+    
+    
+            marker_ff5a601dfeb34ad9b26117c649c489a6.bindTooltip(
+                `<div>
+                     You are here!
+                 </div>`,
+                {"sticky": true}
+            );
+        
+</script>
