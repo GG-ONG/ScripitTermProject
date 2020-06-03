@@ -3,11 +3,17 @@ import requests
 import smtplib
 import folium
 import webbrowser
+import numpy as np
+import matplotlib
 from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
 from email.mime.text import MIMEText
 from tkinter import *
 from matplotlib import pyplot as plt
+
+
+
+
 
 
 def telegram():
@@ -60,9 +66,9 @@ def location():
         tooltip="You are here!",
         icon=folium.Icon(color='red', icon='star')).add_to(m)
 
-    m.save("위도경도.html")
+    m.save("현재위치위도경도.html")
 
-    filepath = "위도경도.html"
+    filepath = "현재위치위도경도.html"
 
     webbrowser.open_new_tab(filepath)
 
@@ -96,17 +102,25 @@ def saveinfo():
 
     weather_status = output['weather'][0]['description']
     temperature = output['main']['temp']
+    temp_min = output['main']['temp_min']
+    temp_max = output['main']['temp_max']
     humidity = output['main']['humidity']
     wind_speed = output['wind']['speed']
+    lat = output['coord']['lat']
+    lon = output['coord']['lon']
 
     cityname = "도시이름 : " + city
     wslc = "날씨 상태 : " + weather_status
     tlc = "온도 : " + str(temperature)
+    tmin = "최저 온도 : " + str(temp_min)
+    tmax = "최고 온도 : " + str(temp_max)
     hlc = "습도 : " + str(humidity)
     wlc = "바람 세기 : " + str(wind_speed)
+    lat_LoN = "위도 경도 : " + str(lat) + "," + str(lon)
+
 
     f = open("날씨정보.txt", 'w')
-    texts = [cityname, wslc, tlc, hlc, wlc]
+    texts = [cityname, wslc, tlc, tmin, tmax, hlc, wlc,lat_LoN]
     for text in texts:
         msg = text
         f.write(msg + "\n")
@@ -114,6 +128,8 @@ def saveinfo():
 
 
 def chart():
+
+
     city = city_listbox.get()
     url = "https://openweathermap.org/data/2.5/weather?q={}&appid=439d4b804bc8187953eb36d2a8c26a02".format(city)
     res = requests.get(url)
@@ -121,19 +137,53 @@ def chart():
 
     weather_status = output['weather'][0]['description']
     temperature = output['main']['temp']
+    temp_min = output['main']['temp_min']
+    temp_max = output['main']['temp_max']
     humidity = output['main']['humidity']
     wind_speed = output['wind']['speed']
 
-    wslc = weather_status
-    tlc = temperature
-    hlc = humidity
-    wlc = wind_speed
 
-    y = [tlc, hlc, wlc]
+    labels = ['Current']
+    x = np.arange(len(labels))
+    width = 0.35
 
-    plt.plot(["Temperature", "Humidity", "Wind_Speed"], y)
-    plt.title(city + " Weather_status : " + wslc)
+    fig, ax = plt.subplots()
+    rects1 = ax.bar(x + width/0.5, temperature, width, label="AvgTemp")
+    rects2 = ax.bar(x - width/0.5, temp_min, width, label="MinTemp")
+    rects3 = ax.bar(x + width/1, temp_max, width, label="MaxTemp")
+    rects4 = ax.bar(x - width/1, humidity, width, label="Humidity")
+    rects5 = ax.bar(x + width/150, wind_speed, width, label="WindSpeed")
+
+
+
+
+
+    ax.set_title(city + " Weather : " + weather_status)
+    ax.set_xticks(x)
+    ax.set_xticklabels(labels)
+    ax.legend()
+
+    def autolabel(rects):
+        for rect in rects:
+            height = rect.get_height()
+            ax.annotate('{}'.format(height),
+                        xy=(rect.get_x()+rect.get_width() / 2, height),
+                        xytext=(0,3),
+                        textcoords="offset points",
+                        ha='center', va='bottom')
+
+    autolabel(rects1)
+    autolabel(rects2)
+    autolabel(rects3)
+    autolabel(rects4)
+    autolabel(rects5)
+
+    fig.tight_layout()
+
     plt.show()
+
+
+
 
 
 def sendmail():
@@ -180,11 +230,9 @@ def weather():
     temperature_label.configure(text="온도 : " + str(temperature))
     temp_min_label.configure(text="최저 온도 : " + str(temp_min))
     temp_max_label.configure(text="최고 온도 : " + str(temp_max))
-    coord_label.configure(text="위도 경도 : " + str(lat)+","+str(lon))
-
-
     humidity_label.configure(text="습도 : " + str(humidity))
     wind_speed_label.configure(text="바람 세기 : " + str(wind_speed))
+    coord_label.configure(text="위도 경도 : " + str(lat)+","+str(lon))
 
 
 
@@ -193,7 +241,7 @@ window.title("도시 날씨 정보")
 window.geometry("1024x768")
 
 city_name_list = ["Seoul", "Tokyo", "Beijing", "Washington", "London", "Berlin", "Rome", "Madrid", "Paris",
-                  "Siheung-si"]
+                  "Siheung-si","Rheine"]
 
 city_listbox = StringVar(window)
 city_listbox.set("도시를 선택하세요")
