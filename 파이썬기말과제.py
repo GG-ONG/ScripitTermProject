@@ -4,7 +4,6 @@ import smtplib
 import folium
 import webbrowser
 import numpy as np
-
 from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
 from email.mime.text import MIMEText
