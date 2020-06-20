@@ -24,14 +24,21 @@ def telegram():
 
     weather_status = output['weather'][0]['description']
     temperature = output['main']['temp']
+    temp_min = output['main']['temp_min']
+    temp_max = output['main']['temp_max']
     humidity = output['main']['humidity']
     wind_speed = output['wind']['speed']
+    lat = output['coord']['lat']
+    lon = output['coord']['lon']
 
-    cityname = "도시이름 :" + city
+    cityname = "도시이름 : " + city
     wslc = "날씨 상태 : " + weather_status
     tlc = "온도 : " + str(temperature)
+    tmin = "최저 온도 : " + str(temp_min)
+    tmax = "최고 온도 : " + str(temp_max)
     hlc = "습도 : " + str(humidity)
     wlc = "바람 세기 : " + str(wind_speed)
+    lat_LoN = "위도 경도 : " + str(lat) + "," + str(lon)
 
     token = "1206680949:AAFv4zWsk-cOIemuLOoBGS7S8bGi_4wTLyE"
     url = 'https://api.telegram.org/bot{}/getUpdates'.format(token)
@@ -42,7 +49,7 @@ def telegram():
     msg = text
 
     if text == "선택한 도시 날씨":
-        msg = cityname + "\n" + wslc + "\n" + tlc + "\n" + hlc + "\n" + wlc
+        msg = cityname + "\n" + wslc + "\n" + tlc + "\n" + tmin + "\n" + tmax + "\n" + hlc + "\n" + wlc + "\n" + lat_LoN
 
     requests.get(url, params={"chat_id": chat_id, "text": msg})
 
